@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Transcripts</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📜 Saved Transcripts</h1>
+    <a href="index.html"><button>⬅ Back</button></a>
+    <table id="transcriptsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Transcript</th>
+          <th>Saved At</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    async function loadTranscripts() {
+      const res = await fetch("http://localhost:3000/transcripts");
+      const data = await res.json();
+      const tbody = document.querySelector("#transcriptsTable tbody");
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.id}</td>
+          <td>${row.text}</td>
+          <td>${row.created_at}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    loadTranscripts();
+  </script>
+</body>
+</html>
